@@ -50,3 +50,10 @@ export const getTicketById = async (id: string): Promise<Ticket | null> => {
     });
     return ticket;
 };
+
+export const getAssignedTicketsByEmail = async (emailId: string): Promise<Ticket[]> => {
+    const tickets = await prisma.ticket.findMany({
+        where: { assignedTo: emailId },
+    });
+    return tickets;
+};
