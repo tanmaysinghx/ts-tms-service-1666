@@ -3,8 +3,8 @@ import kafka from 'kafka-node';
 
 const prisma = new PrismaClient();
 
-const client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
-const producer = new kafka.Producer(client);
+// const client = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
+// const producer = new kafka.Producer(client);
 
 export const createTicket = async (data: Partial<Ticket>): Promise<Ticket> => {
     const { createdBy, title, description, category, priority, dueDate } = data;
@@ -22,20 +22,20 @@ export const createTicket = async (data: Partial<Ticket>): Promise<Ticket> => {
             dueDate: dueDate ? new Date(dueDate) : null,
         },
     });
-    const kafkaMessage = {
-        ticketId: ticket.id,
-        title: ticket.title,
-        description: ticket.description,
-        createdBy: ticket.createdBy,
-        assignedTo: ticket?.assignedTo ?? null,
-        status: ticket.status,
-        priority: ticket.priority,
-        eventType: 'create-ticket'
-    };
-    producer.send([{ topic: 'ticket-updates', messages: JSON.stringify(kafkaMessage) }], (err, data) => {
-        if (err) console.error('Error sending Kafka message', err);
-        else console.log('Kafka message sent', data);
-    });
+    // const kafkaMessage = {
+    //     ticketId: ticket.id,
+    //     title: ticket.title,
+    //     description: ticket.description,
+    //     createdBy: ticket.createdBy,
+    //     assignedTo: ticket?.assignedTo ?? null,
+    //     status: ticket.status,
+    //     priority: ticket.priority,
+    //     eventType: 'create-ticket'
+    // };
+    // producer.send([{ topic: 'ticket-updates', messages: JSON.stringify(kafkaMessage) }], (err, data) => {
+    //     if (err) console.error('Error sending Kafka message', err);
+    //     else console.log('Kafka message sent', data);
+    // });
     return ticket;
 };
 
